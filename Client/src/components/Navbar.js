@@ -22,9 +22,9 @@ const Navbar = () => {
 
   const handleSearch = () => {
     if (selectedCategory === "All Categories") {
-      navigate.push(`/allproducts?q=${searchQuery}`);
+      navigate(`/allproducts?q=${searchQuery}`);
     } else {
-      navigate.push(
+      navigate(
         `/categories/${selectedCategory.toLowerCase()}?q=${searchQuery}`
       );
     }
@@ -129,7 +129,7 @@ const Navbar = () => {
               onClick={() => {
                 // Handle logout when user clicks the button
                 logout();
-                navigate.push("/");
+                navigate("/");
               }}
               className="text-white hover:text-yellow-500"
             >
