@@ -28,11 +28,10 @@ const Login = () => {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       login({
         id: data.token.userId, // You should modify this to match your response
-        email: formData.email,
-        // Add other user properties as needed
+        email: data.user.email,
+        college: data.user.college,
       });
       navigate("/");
     }
