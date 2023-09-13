@@ -74,8 +74,8 @@ const Register = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg sm:w-96 md:w-2/3">
         <h1 className="text-3xl font-semibold text-gray-900 mb-4">Register</h1>
         <form onSubmit={handleSubmit}>
-          <div className="flex">
-            <div className="w-1/2 pr-2">
+          <div className="flex flex-col md:flex-row">
+            <div className="md:w-1/2 pr-0 md:pr-2">
               <div className="mb-4">
                 <input
                   type="text"
@@ -162,7 +162,7 @@ const Register = () => {
                 )}
               </div>
             </div>
-            <div className="w-1/2 pl-2">
+            <div className="md:w-1/2 pr-0 md:pr-2">
               <div className="mb-4">
                 <input
                   type="text"
