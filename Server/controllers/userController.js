@@ -9,7 +9,6 @@ const {
 exports.registerUser = async (req, res) => {
   try {
     // Check if the email already exists
-    console.log("haha");
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
@@ -46,8 +45,7 @@ exports.loginUser = async (req, res) => {
     }
     // Generate a JWT token and send it in the response
     const token = await createSession(existingUser._id.toString());
-    console.log(token);
-    res.status(200).json({ token });
+    res.status(200).json({ token, user: existingUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

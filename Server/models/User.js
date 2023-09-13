@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
-    unique: true,
+    required: [true, "Email is required"],
+    unique: [true, "Email already registered!"],
     trim: true,
     lowercase: true,
     validate: {
@@ -18,20 +18,55 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password is required"],
     minlength: 6,
   },
   fullName: {
     type: String,
-    required: true,
+    required: [true, "Full Name of user is required"],
     trim: true,
   },
   college: {
     type: String,
-    required: true,
+    required: [true, "College name is required"],
     trim: true,
   },
-  // Add other user properties and validations as needed
+  collegeId: {
+    type: String,
+    required: [true, "College ID is required"],
+    trim: true,
+  },
+  phoneNo: {
+    type: String,
+    trim: true,
+    validate: {
+      validator: function (value) {
+        return /^\d{10}$/.test(value);
+      },
+      message: "Invalid phone number",
+    },
+    required: [true, "Phone number is required"],
+  },
+  address: {
+    type: String,
+    required: [true, "Address is required"],
+    trim: true,
+  },
+  city: {
+    type: String,
+    required: [true, "City is required"],
+    trim: true,
+  },
+  state: {
+    type: String,
+    required: [true, "State is required"],
+    trim: true,
+  },
+  zipCode: {
+    type: String,
+    required: [true, "Zip code is required"],
+    trim: true,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

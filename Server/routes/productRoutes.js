@@ -18,8 +18,4 @@ router.delete(
   productController.deleteSpecification
 );
 
-router.post("/:id/reviews", productController.createReview);
-router.put("/:productId/reviews/:reviewId", productController.updateReview);
-router.delete("/:productId/reviews/:reviewId", productController.deleteReview);
-
 module.exports = router;
