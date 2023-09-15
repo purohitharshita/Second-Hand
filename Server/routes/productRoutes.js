@@ -2,20 +2,43 @@ const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
 
-router.get("/", productController.getAllProducts);
-router.get("/:id", productController.getProductById);
+// Create a product
 router.post("/", productController.createProduct);
-router.put("/:id", productController.updateProduct);
-router.delete("/:id", productController.deleteProduct);
 
-router.post("/:id/specifications", productController.createSpecification);
-router.put(
-  "/:productId/specifications/:specificationId",
-  productController.updateSpecification
-);
+// Get all products
+router.get("/", productController.getAllProducts);
+
+// Get a single product by ID
+router.get("/:id", productController.getProductById);
+
+// Update a product by ID
+router.put("/:id", productController.updateProductById);
+
+// Delete a product by ID
+router.delete("/:id", productController.deleteProductById);
+
+// Add an image to a product
+router.post("/:id/images", productController.addImageToProduct);
+
+// Remove an image from a product
 router.delete(
-  "/:productId/specifications/:specificationId",
-  productController.deleteSpecification
+  "/:id/images/:imageIndex",
+  productController.removeImageFromProduct
+);
+
+// Add a specification to a product
+router.post("/:id/specifications", productController.addSpecificationToProduct);
+
+// Update a specification of a product
+router.put(
+  "/:id/specifications/:specificationId",
+  productController.updateProductSpecification
+);
+
+// Remove a specification from a product
+router.delete(
+  "/:id/specifications/:specificationId",
+  productController.removeProductSpecification
 );
 
 module.exports = router;

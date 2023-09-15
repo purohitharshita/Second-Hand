@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
 
-// Define the specifications schema
-const SpecificationSchema = new mongoose.Schema({
-  key: String,
-  value: String,
-});
-
-// Define the seller schema
 const SellerSchema = new mongoose.Schema({
   id: String,
   name: String,
   college: String,
+});
+
+// Define the specifications schema
+const SpecificationSchema = new mongoose.Schema({
+  key: String,
+  value: String,
 });
 
 // Define the product schema
@@ -32,11 +31,17 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   price: {
-    type: Number,
+    type: mongoose.Types.Decimal128,
     required: true,
+    validate: {
+      validator: function (value) {
+        return value > 0;
+      },
+      message: "Price cannot be negative.",
+    },
   },
-  image: {
-    type: String,
+  images: {
+    type: [String],
     required: true,
   },
   specifications: [SpecificationSchema], // Embed specifications as an array of objects

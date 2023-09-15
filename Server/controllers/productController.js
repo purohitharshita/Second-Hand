@@ -1,10 +1,22 @@
 const Product = require("../models/Product");
 
+// Create a product
+exports.createProduct = async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.status(201).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // Get all products
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    res.json(products);
+    res.status(200).json(products);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -18,19 +30,7 @@ exports.getProductById = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.json(product);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-// Create a new product
-exports.createProduct = async (req, res) => {
-  try {
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.status(201).json({ message: "Product created successfully" });
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -38,17 +38,15 @@ exports.createProduct = async (req, res) => {
 };
 
 // Update a product by ID
-exports.updateProduct = async (req, res) => {
+exports.updateProductById = async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedProduct) {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.json(updatedProduct);
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -56,79 +54,103 @@ exports.updateProduct = async (req, res) => {
 };
 
 // Delete a product by ID
-exports.deleteProduct = async (req, res) => {
+exports.deleteProductById = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-    if (!deletedProduct) {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.json({ message: "Product deleted successfully" });
+    res.status(200).json({ message: "Product successfully deleted" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Create a new specification for a product
-exports.createSpecification = async (req, res) => {
+// Add an image to a product
+exports.addImageToProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    product.images.push(req.body.imageUrl);
+    await product.save();
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Remove an image from a product
+exports.removeImageFromProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
+    product.images.splice(req.params.imageIndex, 1);
+    await product.save();
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Add a specification to a product
+exports.addSpecificationToProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
     product.specifications.push(req.body);
     await product.save();
-
-    res.status(201).json({ message: "Specification created successfully" });
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Update a specification for a product
-exports.updateSpecification = async (req, res) => {
+// Update a specification of a product
+exports.updateProductSpecification = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.productId);
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-
     const specification = product.specifications.id(req.params.specificationId);
     if (!specification) {
       return res.status(404).json({ message: "Specification not found" });
     }
-
     specification.key = req.body.key;
     specification.value = req.body.value;
-
     await product.save();
-
-    res.json({ message: "Specification updated successfully" });
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Delete a specification for a product
-exports.deleteSpecification = async (req, res) => {
+// Remove a specification from a product
+exports.removeProductSpecification = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.productId);
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-
     const specification = product.specifications.id(req.params.specificationId);
     if (!specification) {
       return res.status(404).json({ message: "Specification not found" });
     }
-
-    specification.remove();
+    product.specifications.pull(specification);
     await product.save();
-
-    res.json({ message: "Specification deleted successfully" });
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
