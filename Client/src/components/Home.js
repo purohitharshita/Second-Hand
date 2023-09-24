@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Categories from "./Categories";
+import ProductsList from "./Home/index";
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <Categories />
+      <ProductsList />
       <Footer />
     </div>
   );

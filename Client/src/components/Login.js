@@ -29,7 +29,7 @@ const Login = () => {
     if (response.ok) {
       const data = await response.json();
       login({
-        id: data.token.userId, // You should modify this to match your response
+        id: data.user._id, // You should modify this to match your response
         email: data.user.email,
         college: data.user.college,
       });

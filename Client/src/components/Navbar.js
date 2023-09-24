@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { FaUser, FaSearch } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
 import Select from "react-select";
 import { components } from "react-select";
@@ -10,7 +10,7 @@ const Navbar = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const categories = [
     "All Categories",
     "Mattress",
@@ -83,7 +83,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex flex-col md:flex-row items-center md:space-x-4">
-        <div className="flex items-center mb-4 md:mb-0 md:space-x-2">
+        {/* <div className="flex items-center mb-4 md:mb-0 md:space-x-2"> }
           <Select
             classNamePrefix="react-select"
             className="w-40 py-2 rounded-l"
@@ -120,11 +120,12 @@ const Navbar = () => {
           >
             <FaSearch className="text-xl" />
           </button>
-        </div>
+        </div> */}
         {isAuthenticated ? (
           <div className="flex items-center space-x-2">
-            <FaUser className="text-white text-xl cursor-pointer" />
-            <FaShoppingCart className="text-white text-xl cursor-pointer" />
+            <a href={`/profile/${user.id}`}>
+              <FaUser className="text-white text-xl cursor-pointer" />
+            </a>
             <button
               onClick={() => {
                 // Handle logout when user clicks the button
