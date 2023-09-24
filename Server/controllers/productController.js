@@ -156,3 +156,28 @@ exports.removeProductSpecification = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.updateProductStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    // Find the product by ID
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Update the status of the product
+    product.status = status;
+
+    // Save the updated product
+    await product.save();
+
+    res.json(product);
+  } catch (error) {
+    console.error("Error updating product status: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

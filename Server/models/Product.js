@@ -45,6 +45,12 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   specifications: [SpecificationSchema], // Embed specifications as an array of objects
+  status: {
+    type: String,
+    enum: ["unsold", "sold"],
+    default: "unsold", // Default value is "unsold"
+    required: true,
+  },
 });
 
 const Product = mongoose.model("Product", ProductSchema);
