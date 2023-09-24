@@ -24,6 +24,8 @@ const ProductSchema = new mongoose.Schema({
   },
   category: {
     type: String,
+    enum: ["electronics", "mattress", "air cooler", "cycles", "books", "other"],
+    default: "other",
     required: true,
   },
   description: {

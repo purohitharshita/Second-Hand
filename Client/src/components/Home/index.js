@@ -62,7 +62,7 @@ const ProductsList = () => {
         const response = await fetch("http://localhost:8000/api/products/");
         if (response.ok) {
           const products = await response.json();
-          console.log(products);
+
           // Filter products based on the search query, price range, and category
           const filtered = products
             .filter((product) =>

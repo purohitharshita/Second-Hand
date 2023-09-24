@@ -42,27 +42,29 @@ const ProductDetails = ({ productId }) => {
     <div className="bg-white p-4 rounded-lg shadow-md m-4">
       <div className="flex flex-col md:flex-row">
         <img
-          src={productDetails.image}
-          alt={`${productDetails.brand} ${productDetails.category}`}
+          src={productDetails.images[0]} // Modify to use the correct image source
+          alt={productDetails.name}
           className="w-full md:w-1/2 h-auto rounded-lg"
         />
         <div className="md:ml-6 mt-4 md:mt-0">
           <h1 className="text-3xl font-semibold">{productDetails.name}</h1>
-          <p className="text-gray-500 mt-2">{productDetails.uploadedBy.name}</p>
+          <p className="text-gray-500 mt-2">
+            Uploaded by - {productDetails.uploadedBy.name}
+          </p>
           <p className="text-2xl font-semibold mt-4">
-            ₹{productDetails.price.toFixed(2)}
+            ₹{parseFloat(productDetails.price.$numberDecimal).toFixed(2)}
           </p>
           <button
             className={`mt-8 flex items-center px-5 py-3 rounded text-lg ${
-              clickedButtonId === productDetails.id
+              clickedButtonId === productDetails._id
                 ? "bg-green-500"
                 : "bg-yellow-500 hover:bg-yellow-600"
             } text-gray-800 transition duration-300 transform`}
-            onClick={() => handleAddToCart(productDetails.id)}
+            onClick={() => handleAddToCart(productDetails._id)}
           >
             <span
               className={`mr-2 ${
-                clickedButtonId === productDetails.id ? "animate-ping" : ""
+                clickedButtonId === productDetails._id ? "animate-ping" : ""
               } transition-transform`}
             >
               <FaShoppingCart />
@@ -79,9 +81,9 @@ const ProductDetails = ({ productId }) => {
         <h2 className="text-xl font-semibold">Specifications</h2>
         <div className="border-t border-gray-300 mt-2 pt-2">
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-            {productDetails.specifications.map((spec) => (
+            {productDetails.specifications.map((spec, index) => (
               <div
-                key={spec.key}
+                key={index}
                 className="p-2 text-gray-900 hover:text-yellow-500 transition-transform hover:scale-105 transform-gpu duration-300 hover:bg-gray-900 hover:shadow-md rounded-md"
               >
                 <dt className="font-semibold">{spec.key}</dt>

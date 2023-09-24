@@ -30,7 +30,7 @@ const Login = () => {
       const data = await response.json();
       login({
         id: data.user._id, // You should modify this to match your response
-        email: data.user.email,
+        name: data.user.fullName,
         college: data.user.college,
       });
       navigate("/");
