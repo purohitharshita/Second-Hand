@@ -105,9 +105,10 @@ const ProductsList = () => {
                   parseFloat(a.price.$numberDecimal)
                 );
               } else if (sortBy === "latest") {
-                // You can add a timestamp property to your product data for sorting by latest
-                // Example: product.timestamp = Date.now();
-                // Then, sort by product.timestamp
+                return (
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+                );
                 return 0; // Placeholder
               }
               return 0;

@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import Navbar from "./Navbar"; // Import your Navbar component
 import Footer from "./Footer"; // Import your Footer component
 import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   // State to manage form fields
   const [formData, setFormData] = useState({
     name: "",
@@ -92,6 +94,8 @@ const AddProduct = () => {
               // Product was successfully added
               // You can redirect the user or show a success message
               console.log("Product added successfully!");
+              navigate("/");
+              
             } else {
               // Handle errors, e.g., show an error message to the user
               console.error("Failed to add product.");

@@ -53,6 +53,10 @@ const ProductSchema = new mongoose.Schema({
     default: "unsold", // Default value is "unsold"
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Product = mongoose.model("Product", ProductSchema);
