@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaShoppingCart } from "react-icons/fa";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
+import Dialog from "./Dialog";
 
 const ProductDetails = ({ productId }) => {
   const { user } = useAuth();
@@ -9,8 +10,20 @@ const ProductDetails = ({ productId }) => {
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const handleConfirmPurchase = (userData) => {
+    // Check if all necessary fields in userData are filled
+    // If not, show an error message and prevent further action
+    // Otherwise, proceed with the purchase and change product status to "sold"
+    // Example: if (userData.name && userData.email) { /* perform purchase */ }
+    // Close the dialog after processing
+    setDialogOpen(false);
+  };
+
   const handleAddToCart = (productId) => {
     setClickedButtonId(productId);
+    setDialogOpen(true);
     setTimeout(() => {
       setClickedButtonId(null);
     }, 1000); // Change the delay time as needed
@@ -46,14 +59,14 @@ const ProductDetails = ({ productId }) => {
     <div className="bg-white p-4 rounded-lg shadow-md m-4 transition duration-300 hover:shadow-lg">
       {userId === productDetails.uploadedBy.id && (
         <Link
-        to={`/product/${productId}/edit`}
-        className="text-yellow-500 hover:text-gray-900 hover:border-yellow-500 border-b-2 border-transparent font-semibold mb-4 inline-flex items-center gap-2 transform hover:scale-105"
-      >
-        <span className="text-xl">
-          <FaEdit />
-        </span>
-        <div>Edit</div>
-      </Link>      
+          to={`/product/${productId}/edit`}
+          className="text-yellow-500 hover:text-gray-900 hover:border-yellow-500 border-b-2 border-transparent font-semibold mb-4 inline-flex items-center gap-2 transform hover:scale-105"
+        >
+          <span className="text-xl">
+            <FaEdit />
+          </span>
+          <div>Edit</div>
+        </Link>
       )}
       <div className="flex flex-col md:flex-row">
         <img
@@ -69,23 +82,31 @@ const ProductDetails = ({ productId }) => {
           <p className="text-2xl font-semibold mt-4">
             ₹{parseFloat(productDetails.price.$numberDecimal).toFixed(2)}
           </p>
-          <button
-            className={`mt-8 flex items-center px-5 py-3 rounded text-lg ${
-              clickedButtonId === productDetails._id
-                ? "bg-green-500"
-                : "bg-yellow-500 hover:bg-yellow-600"
-            } text-gray-800 transition duration-300 transform`}
-            onClick={() => handleAddToCart(productDetails._id)}
-          >
-            <span
-              className={`mr-2 ${
-                clickedButtonId === productDetails._id ? "animate-ping" : ""
-              } transition-transform`}
+          <div className="buy-now-button-container">
+            <button
+              className={`mt-8 flex items-center px-5 py-3 rounded text-lg ${
+                clickedButtonId === productDetails._id
+                  ? "bg-green-500"
+                  : "bg-yellow-500 hover:bg-yellow-600"
+              } text-gray-800 transition duration-300 transform`}
+              onClick={() => handleAddToCart(productDetails._id)}
             >
-              <FaShoppingCart />
-            </span>
-            Add to Cart
-          </button>
+              <span
+                className={`mr-2 ${
+                  clickedButtonId === productDetails._id ? "animate-ping" : ""
+                } transition-transform`}
+              >
+                <FaShoppingCart />
+              </span>
+              Buy now
+            </button>
+            <Dialog
+              isOpen={isDialogOpen}
+              onClose={() => setDialogOpen(false)}
+              onSave={handleConfirmPurchase}
+              id={productDetails.uploadedBy._id}
+            />
+          </div>
           <div className="mt-8">
             <h2 className="text-xl font-semibold">Description</h2>
             <p className="text-gray-900 mt-2">{productDetails.description}</p>

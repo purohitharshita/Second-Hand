@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   const [clickedButtonId, setClickedButtonId] = useState(null);
 
   const handleAddToCart = (product) => {
@@ -9,7 +11,7 @@ const ProductCard = ({ product }) => {
     setTimeout(() => {
       setClickedButtonId(null);
     }, 1000); // Change the delay time as needed
-    // Your actual add to cart logic can be added here
+    navigate(`/product/${product._id}`)
   };
 
   return (
@@ -46,7 +48,7 @@ const ProductCard = ({ product }) => {
           >
             <FaShoppingCart />
           </span>
-          Add to Cart
+          Buy now
         </button>
         <p className="text-xl mx-auto">
           ₹{parseFloat(product.price.$numberDecimal).toFixed(2)}

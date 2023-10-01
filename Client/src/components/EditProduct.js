@@ -3,6 +3,7 @@ import Navbar from "./Navbar"; // Import your Navbar component
 import Footer from "./Footer"; // Import your Footer component
 import { useAuth } from "../context/authContext";
 import { useNavigate, useParams } from "react-router-dom";
+import ProductForm from "./Edit_Product/ProductForm";
 
 const EditProduct = () => {
   const { user } = useAuth();
@@ -23,6 +24,45 @@ const EditProduct = () => {
     key: "",
     value: "",
   });
+
+  const [imageField, setImageField] = useState(null); // State to manage individual image input field
+  const [imageFieldError, setImageFieldError] = useState(""); // State to manage image field error message
+
+  // Handle image file change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageField(file);
+    setImageFieldError(""); // Clear any previous error messages
+  };
+
+  // Add a new image to the images array after converting it to base64
+  const handleAddImage = () => {
+    if (imageField) {
+      const reader = new FileReader();
+      reader.readAsDataURL(imageField);
+      reader.onloadend = () => {
+        const base64Image = reader.result; // Get the base64 representation of the image
+        setFormData({
+          ...formData,
+          images: [...formData.images, base64Image],
+        });
+        setImageField(""); // Clear the image field
+        setImageFieldError(""); // Clear any previous error messages
+      };
+    } else {
+      setImageFieldError("Please select an image file.");
+    }
+  };
+
+  // Remove an image from the images array
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...formData.images];
+    updatedImages.splice(index, 1);
+    setFormData({
+      ...formData,
+      images: updatedImages,
+    });
+  };
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -58,15 +98,15 @@ const EditProduct = () => {
   };
 
   // Handle form submission
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Perform client-side validation, for example, ensuring required fields are filled
     if (!formData.name || !formData.description || !formData.price) {
       console.error("Please fill out all required fields.");
       return;
     }
-  
+
     try {
       const response = await fetch(`http://localhost:8000/api/products/${id}`, {
         method: "PUT",
@@ -82,7 +122,7 @@ const handleSubmit = async (e) => {
           },
         }),
       });
-  
+
       if (response.ok) {
         // Product was successfully updated
         // You can redirect the user or show a success message
@@ -97,7 +137,6 @@ const handleSubmit = async (e) => {
       console.error("Error:", error);
     }
   };
-  
 
   // Fetch product details for editing
   useEffect(() => {
@@ -136,158 +175,19 @@ const handleSubmit = async (e) => {
         <h1 className="text-3xl font-semibold text-gray-900 mb-4">
           Edit Product
         </h1>
-        <form onSubmit={handleSubmit}>
-          {/* Product Name */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-600">
-              Product Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border rounded-lg py-2 px-3"
-              required
-            />
-          </div>
-
-          {/* Product Category Dropdown */}
-          <div className="mb-4">
-            <label htmlFor="category" className="block text-gray-600">
-              Category
-            </label>
-            <select
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="w-full border rounded-lg py-2 px-3"
-              required
-            >
-              <option value="other">Other</option>
-              <option value="electronics">Electronics</option>
-              <option value="mattress">Mattress</option>
-              <option value="air cooler">Air Cooler</option>
-              <option value="cycles">Cycles</option>
-              <option value="books">Books</option>
-            </select>
-          </div>
-
-          {/* Product Description */}
-          <div className="mb-4">
-            <label htmlFor="description" className="block text-gray-600">
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full border rounded-lg py-2 px-3"
-              required
-            />
-          </div>
-
-          {/* Product Price */}
-          <div className="mb-4">
-            <label htmlFor="price" className="block text-gray-600">
-              Price (in ₹)
-            </label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full border rounded-lg py-2 px-3"
-              required
-              min="0"
-            />
-          </div>
-
-          {/* Product Specifications (if applicable) */}
-          <div className="mb-4">
-            <label htmlFor="specifications" className="block text-gray-600">
-              Specifications
-            </label>
-            {formData.specifications.map((spec, index) => (
-              <div key={index} className="flex mb-2 justify-between">
-                <input
-                  type="text"
-                  name={`specification-${index}-key`}
-                  value={spec.key}
-                  readOnly
-                  className="w-[45%] border rounded-lg py-2 px-3 bg-gray-200 mr-2"
-                  disabled
-                />
-                <input
-                  type="text"
-                  name={`specification-${index}-value`}
-                  value={spec.value}
-                  readOnly
-                  className="w-[45%] border rounded-lg py-2 px-3 bg-gray-200 mr-2"
-                  disabled
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveSpecification(index)}
-                  className="w-[7%] bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <div className="flex justify-between">
-              <input
-                type="text"
-                id="specificationKeyField"
-                name="specificationKeyField"
-                value={specificationField.key}
-                onChange={(e) =>
-                  setSpecificationField({
-                    ...specificationField,
-                    key: e.target.value,
-                  })
-                }
-                className="w-[45%] border rounded-lg py-2 px-3"
-                placeholder="Key"
-              />
-              <input
-                type="text"
-                id="specificationValueField"
-                name="specificationValueField"
-                value={specificationField.value}
-                onChange={(e) =>
-                  setSpecificationField({
-                    ...specificationField,
-                    value: e.target.value,
-                  })
-                }
-                className="w-[45%] border rounded-lg py-2 px-3"
-                placeholder="Value"
-              />
-              <button
-                type="button"
-                onClick={handleAddSpecification}
-                className="w-[7%] bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
-            >
-              Save Changes
-            </button>
-          </div>
-        </form>
+        <ProductForm
+          formData={formData}
+          handleChange={handleChange}
+          handleImageChange={handleImageChange}
+          handleAddImage={handleAddImage}
+          imageFieldError={imageFieldError}
+          handleRemoveImage={handleRemoveImage}
+          specificationField={specificationField}
+          setSpecificationField={setSpecificationField}
+          handleAddSpecification={handleAddSpecification}
+          handleRemoveSpecification={handleRemoveSpecification}
+          handleSubmit={handleSubmit}
+        />
       </div>
       <Footer />
     </div>

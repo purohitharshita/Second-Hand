@@ -83,7 +83,7 @@ const AddProduct = () => {
             ...formData,
             images: base64Images,
             uploadedBy: {
-              id: user.id,
+              _id: user.id,
               name: user.name,
               college: user.college,
             },

@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ProductDetails from "./ProductDetails"; // Import the product details component
+import ProductDetails from "./Product_Details/ProductDetails"; // Import the product details component
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
