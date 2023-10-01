@@ -1,79 +1,32 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaSearch } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
-import Select from "react-select";
-import { components } from "react-select";
-import { FaChevronDown } from "react-icons/fa";
 
 const Navbar = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
-  const categories = [
-    "All Categories",
-    "Mattress",
-    "Air Cooler",
-    "Cycles",
-    "Electronics",
-    "Books",
-  ];
+  const profileMenuRef = useRef(null);
 
-  const handleSearch = () => {
-    if (selectedCategory === "All Categories") {
-      navigate(`/allproducts?q=${searchQuery}`);
-    } else {
-      navigate(
-        `/categories/${selectedCategory.toLowerCase()}?q=${searchQuery}`
-      );
-    }
+  useEffect(() => {
+    // Close profile menu when user clicks outside of it
+    const handleClickOutside = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleProfileMenuToggle = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
   };
-
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      padding: "2px",
-      backgroundColor: "rgb(55, 65, 81)",
-      border: "2px solid transparent",
-      borderRadius: "4px 0px 0px 4px",
-      color: "#fff",
-      cursor: "pointer",
-      minWidth: "100px",
-      "&:hover": {
-        borderColor: state.isFocused ? "#fff" : "transparent",
-      },
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      color: "#fff",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "#4B5563" : "transparent",
-      color: state.isSelected ? "rgb(234, 179, 8)" : "inherit",
-      cursor: "pointer",
-      "&:hover": {
-        backgroundColor: "#4B5563",
-        color: "rgb(234, 179, 8)",
-      },
-    }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: "#4B5563",
-      color: "#fff",
-      zIndex: 100,
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#fff",
-    }),
-  };
-
-  const options = categories.map((category) => ({
-    value: category,
-    label: category,
-  }));
 
   return (
     <nav className="bg-gray-900 py-4 px-8 flex flex-col md:flex-row justify-between items-center z-[100]">
@@ -82,63 +35,53 @@ const Navbar = () => {
           <span className="text-yellow-500">Your</span>Shop
         </Link>
       </div>
-      <div className="flex flex-col md:flex-row items-center md:space-x-4">
-        {/* <div className="flex items-center mb-4 md:mb-0 md:space-x-2"> }
-          <Select
-            classNamePrefix="react-select"
-            className="w-40 py-2 rounded-l"
-            options={options}
-            value={{ value: selectedCategory, label: selectedCategory }}
-            onChange={(selectedOption) =>
-              setSelectedCategory(selectedOption.value)
-            }
-            components={{
-              IndicatorSeparator: () => null,
-              DropdownIndicator: (props) => (
-                <components.DropdownIndicator {...props}>
-                  <FaChevronDown />
-                </components.DropdownIndicator>
-              ),
-            }}
-            styles={customStyles}
-          />
-          <input
-            type="text"
-            className="bg-gray-800 text-white p-2 w-full md:w-64 border-2 border-transparent focus:border-white"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
-          />
-          <button
-            className="p-[11.5px] bg-gray-700 text-white rounded-r hover:bg-white hover:text-gray-800 hover:transition-colors duration-300"
-            onClick={handleSearch}
-          >
-            <FaSearch className="text-xl" />
-          </button>
-        </div> */}
+      <div className="relative group">
         {isAuthenticated ? (
-          <div className="flex items-center space-x-2">
-            <a href={`/profile/${user.id}`}>
-              <FaUser className="text-white text-xl cursor-pointer" />
-            </a>
+          <>
             <button
-              onClick={() => {
-                // Handle logout when user clicks the button
-                logout();
-                navigate("/");
-              }}
-              className="text-white hover:text-yellow-500"
+              onClick={handleProfileMenuToggle}
+              className="flex items-center space-x-2 focus:outline-none relative"
             >
-              Sign Out
+              <FaUser className="text-white text-xl cursor-pointer" />
+              {isProfileMenuOpen && (
+                <div className="absolute top-0 right-0 w-2 h-2 bg-yellow-500 rounded-full animate-ping"></div>
+              )}
             </button>
-          </div>
+            {isProfileMenuOpen && (
+              <div
+                ref={profileMenuRef}
+                className="w-40 absolute right-0 mt-2 bg-white p-2 rounded shadow-lg transform transition duration-300 opacity-100 scale-100 hover:scale-105"
+              >
+                <Link
+                  to={`/profile/${user.id}`}
+                  className="block text-gray-800 hover:text-yellow-500 py-1 transition duration-300"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/add-product"
+                  className="block text-gray-800 hover:text-yellow-500 py-1 transition duration-300"
+                >
+                  Add Product
+                </Link>
+                <button
+                  onClick={() => {
+                    // Handle logout when user clicks the button
+                    logout();
+                    setIsProfileMenuOpen(false);
+                  }}
+                  className="block text-gray-800 hover:text-yellow-500 py-1 w-full text-left transition duration-300"
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </>
         ) : (
-          <Link to="/login" className="text-white hover:text-yellow-500">
+          <Link
+            to="/login"
+            className="text-white hover:text-yellow-500 transition duration-300"
+          >
             Sign In
           </Link>
         )}

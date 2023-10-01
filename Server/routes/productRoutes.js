@@ -7,6 +7,10 @@ router.get("/", productController.getAllProducts);
 router.get("/:id", productController.getProductById);
 router.put("/:id", productController.updateProductById);
 router.delete("/:id", productController.deleteProductById);
+
+// Route to get products listed by a specific user
+router.get("/user/:userId", productController.getProductsByUser);
+
 router.post("/:id/images", productController.addImageToProduct);
 router.delete(
   "/:id/images/:imageIndex",

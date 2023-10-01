@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaEdit, FaShoppingCart } from "react-icons/fa";
+import { useAuth } from "../context/authContext";
+import { Link } from "react-router-dom";
 
 const ProductDetails = ({ productId }) => {
+  const { user } = useAuth();
+  const userId = user ? user.id : null;
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
 
@@ -39,7 +43,18 @@ const ProductDetails = ({ productId }) => {
   }
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md m-4">
+    <div className="bg-white p-4 rounded-lg shadow-md m-4 transition duration-300 hover:shadow-lg">
+      {userId === productDetails.uploadedBy.id && (
+        <Link
+        to={`/product/${productId}/edit`}
+        className="text-yellow-500 hover:text-gray-900 hover:border-yellow-500 border-b-2 border-transparent font-semibold mb-4 inline-flex items-center gap-2 transform hover:scale-105"
+      >
+        <span className="text-xl">
+          <FaEdit />
+        </span>
+        <div>Edit</div>
+      </Link>      
+      )}
       <div className="flex flex-col md:flex-row">
         <img
           src={productDetails.images[0]} // Modify to use the correct image source

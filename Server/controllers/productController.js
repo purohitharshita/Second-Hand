@@ -67,6 +67,26 @@ exports.deleteProductById = async (req, res) => {
   }
 };
 
+exports.getProductsByUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Validate userId (you can add more validation checks as needed)
+    if (!userId) {
+      return res.status(400).json({ error: "Invalid user ID" });
+    }
+
+    // Fetch products listed by the user
+    const products = await Product.find({ "uploadedBy.id": userId });
+
+    // Return the products in the response
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching user products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Add an image to a product
 exports.addImageToProduct = async (req, res) => {
   try {

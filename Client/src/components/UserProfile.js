@@ -1,27 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import UserDetails from "./Profile/UserDetails"; // Import UserDetails component
+import { Link, useParams } from "react-router-dom";
+import UserDetails from "./Profile/UserDetails";
+import ProductCard from "./ProductCard"; // Import ProductCard component
 import { useAuth } from "../context/authContext";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import ConfirmDialog from "./Profile/ConfirmDialog";
+import ProductList from "./Profile/ProductList";
 
 const UserProfile = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
+  const [userProducts, setUserProducts] = useState([]); // State to store user's products
   const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({}); // Store form data for editing
+  const [formData, setFormData] = useState({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   useEffect(() => {
-    // Fetch the user's profile data from the backend using the id
     fetch(`http://localhost:8000/api/users/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
-        setFormData(data); // Initialize form data with fetched data
+        setFormData(data);
       })
       .catch((error) => {
         console.error("Error fetching user data: ", error);
+      });
+
+    fetch(`http://localhost:8000/api/products/user/${id}`)
+      .then((response) => response.json())
+      .then((products) => {
+        setUserProducts(products);
+      })
+      .catch((error) => {
+        console.error("Error fetching user products: ", error);
       });
   }, [id]);
 
@@ -30,7 +44,6 @@ const UserProfile = () => {
   };
 
   const handleSaveClick = () => {
-    // Send updated user data to the backend
     fetch(`http://localhost:8000/api/users/${id}`, {
       method: "PUT",
       body: JSON.stringify(formData),
@@ -56,6 +69,49 @@ const UserProfile = () => {
     }));
   };
 
+  const handleDeleteProduct = (productId) => {
+    setProductIdToDelete(productId);
+    setShowConfirmation(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmation(false);
+    setProductIdToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      if (!productIdToDelete) {
+        console.error("Invalid product ID.");
+        setShowConfirmation(false);
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:8000/api/products/${productIdToDelete}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        setUserProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productIdToDelete)
+        );
+      } else {
+        console.error("Failed to delete the product.");
+      }
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+    } finally {
+      setShowConfirmation(false);
+      setProductIdToDelete(null);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -63,7 +119,6 @@ const UserProfile = () => {
         <h1 className="text-3xl font-semibold text-gray-900 mb-4">
           User Profile
         </h1>
-        {/* Render UserDetails component */}
         {userData && (
           <UserDetails
             userData={userData}
@@ -73,6 +128,20 @@ const UserProfile = () => {
             handleChange={handleChange}
             handleEditClick={handleEditClick}
             handleSaveClick={handleSaveClick}
+          />
+        )}
+        {/* ProductList component */}
+        {userProducts && (
+          <ProductList
+            userProducts={userProducts}
+            onDeleteProduct={handleDeleteProduct}
+          />
+        )}
+        {/* Confirmation dialog */}
+        {showConfirmation && (
+          <ConfirmDialog
+            onCancel={handleCancelDelete}
+            onConfirm={handleConfirmDelete}
           />
         )}
       </div>
