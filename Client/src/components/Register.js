@@ -57,11 +57,14 @@ const Register = () => {
     }
 
     // Send a POST request to register the user
-    const response = await fetch("http://localhost:8000/api/users/register", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/api/users/register`,
+      {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
     if (response.ok) {
       // Redirect to the login page after successful registration

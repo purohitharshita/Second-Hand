@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dialog from "./Dialog";
 import Loading from "../Utility/Loading";
 
 const ProductDetails = ({ productId }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const userId = user ? user.id : null;
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
 
   const [isDialogOpen, setDialogOpen] = useState(false);
 
-  const handleConfirmPurchase = (userData) => {
-    // Check if all necessary fields in userData are filled
-    // If not, show an error message and prevent further action
-    // Otherwise, proceed with the purchase and change product status to "sold"
-    // Example: if (userData.name && userData.email) { /* perform purchase */ }
-    // Close the dialog after processing
+  const handleConfirmPurchase = async (userData) => {
+    alert("Purchase confirmed!");
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/api/products/${productId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    navigate("/home");
     setDialogOpen(false);
   };
 
@@ -36,7 +43,7 @@ const ProductDetails = ({ productId }) => {
     const fetchProductDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/products/${productId}`
+          `${process.env.REACT_APP_BASE_URL}/api/products/${productId}`
         ); // Replace with your API endpoint
         if (response.ok) {
           const data = await response.json();

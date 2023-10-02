@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://second-hand-700u.onrender.com",
+    origin: "*",
   })
 );
 

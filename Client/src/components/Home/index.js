@@ -61,7 +61,9 @@ const ProductsList = () => {
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/api/products/");
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/products/`
+      );
       if (response.ok) {
         const products = await response.json();
 

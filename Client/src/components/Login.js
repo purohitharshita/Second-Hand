@@ -21,11 +21,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Send a POST request to log in the user
-    const response = await fetch("http://localhost:8000/api/users/login", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/api/users/login`,
+      {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       login({

@@ -74,7 +74,7 @@ const AddProduct = () => {
         // Add the base64 image strings to formData
 
         // Make the POST request
-        fetch("http://localhost:8000/api/products/", {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/products/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

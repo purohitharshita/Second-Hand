@@ -23,7 +23,7 @@ const UserProfile = () => {
     if (!user || user.id !== id) {
       navigate("/login");
     }
-    fetch(`http://localhost:8000/api/users/${id}`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
@@ -33,7 +33,7 @@ const UserProfile = () => {
         console.error("Error fetching user data: ", error);
       });
 
-    fetch(`http://localhost:8000/api/products/user/${id}`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/products/user/${id}`)
       .then((response) => response.json())
       .then((products) => {
         setUserProducts(products);
@@ -48,7 +48,7 @@ const UserProfile = () => {
   };
 
   const handleSaveClick = () => {
-    fetch(`http://localhost:8000/api/users/${id}`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${id}`, {
       method: "PUT",
       body: JSON.stringify(formData),
       headers: {
@@ -92,7 +92,7 @@ const UserProfile = () => {
       }
 
       const response = await fetch(
-        `http://localhost:8000/api/products/${productIdToDelete}`,
+        `${process.env.REACT_APP_BASE_URL}/api/products/${productIdToDelete}`,
         {
           method: "DELETE",
           headers: {

@@ -108,20 +108,23 @@ const EditProduct = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/products/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          uploadedBy: {
-            _id: user.id,
-            name: user.name,
-            college: user.college,
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/products/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
+          body: JSON.stringify({
+            ...formData,
+            uploadedBy: {
+              _id: user.id,
+              name: user.name,
+              college: user.college,
+            },
+          }),
+        }
+      );
 
       if (response.ok) {
         // Product was successfully updated
@@ -145,7 +148,7 @@ const EditProduct = () => {
       try {
         console.log(id);
         const response = await fetch(
-          `http://localhost:8000/api/products/${id}`
+          `${process.env.REACT_APP_BASE_URL}/api/products/${id}`
         ); // Replace with your API endpoint
         if (response.ok) {
           const data = await response.json();

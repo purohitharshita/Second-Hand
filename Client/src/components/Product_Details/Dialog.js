@@ -40,7 +40,9 @@ const Dialog = ({ isOpen, onClose, onSave, id }) => {
     // Fetch user details based on the provided id
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/users/${id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/api/users/${id}`
+        );
         if (response.ok) {
           const userData = await response.json();
           setFormData({
