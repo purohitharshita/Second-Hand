@@ -70,14 +70,13 @@ exports.deleteProductById = async (req, res) => {
 exports.getProductsByUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-
     // Validate userId (you can add more validation checks as needed)
     if (!userId) {
       return res.status(400).json({ error: "Invalid user ID" });
     }
 
     // Fetch products listed by the user
-    const products = await Product.find({ "uploadedBy.id": userId });
+    const products = await Product.find({ "uploadedBy._id": userId });
 
     // Return the products in the response
     res.status(200).json(products);

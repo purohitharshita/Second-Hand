@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DrawerMenu = ({ isOpen, onClose, user, logout }) => {
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -48,6 +49,7 @@ const DrawerMenu = ({ isOpen, onClose, user, logout }) => {
           onClick={() => {
             logout();
             onClose(); // Close the drawer when the user clicks Sign Out
+            navigate("/home");
           }}
           className="block text-gray-200 hover:text-yellow-500 py-2 w-full text-left transition duration-300"
         >

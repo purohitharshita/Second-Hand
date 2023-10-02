@@ -57,11 +57,11 @@ const ProductDetails = ({ productId }) => {
   }
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md m-4 transition duration-300 hover:shadow-lg">
-      {userId === productDetails.uploadedBy.id && (
+    <div className="rounded-lg shadow-md m-4 transition duration-300 hover:shadow-lg bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200">
+      {userId === productDetails.uploadedBy._id && (
         <Link
           to={`/product/${productId}/edit`}
-          className="text-yellow-500 hover:text-gray-900 hover:border-yellow-500 border-b-2 border-transparent font-semibold mb-4 inline-flex items-center gap-2 transform hover:scale-105"
+          className="bg-gray-900 p-2 hover:text-yellow-500 text-white border-b-2 border-transparent font-semibold mb-4 inline-flex items-center gap-2 transform hover:scale-105 hover:shadow-2xl rounded-tl-lg rounded-br-lg transition-transform duration-300"
         >
           <span className="text-xl">
             <FaEdit />
@@ -69,7 +69,7 @@ const ProductDetails = ({ productId }) => {
           <div>Edit</div>
         </Link>
       )}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row p-4">
         <img
           src={productDetails.images[0]} // Modify to use the correct image source
           alt={productDetails.name}
@@ -114,7 +114,7 @@ const ProductDetails = ({ productId }) => {
           </div>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 p-4">
         <h2 className="text-xl font-semibold">Specifications</h2>
         <div className="border-t border-gray-300 mt-2 pt-2">
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">

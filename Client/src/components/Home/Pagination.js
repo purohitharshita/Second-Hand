@@ -9,7 +9,7 @@ const Pagination = ({
   const pageNumbers = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center w-full md:w-3/4 p-4">
       <ul className="flex">
         {Array.from({ length: pageNumbers }).map((_, index) => (
           <li key={index}>

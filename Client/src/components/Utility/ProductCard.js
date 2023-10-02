@@ -11,11 +11,11 @@ const ProductCard = ({ product }) => {
     setTimeout(() => {
       setClickedButtonId(null);
     }, 1000); // Change the delay time as needed
-    navigate(`/product/${product._id}`)
+    navigate(`/product/${product._id}`);
   };
 
   return (
-    <div className="flex-shrink-0 w-64 bg-gray-900 text-white px-4 py-5 rounded-md mr-4 hover:scale-105 transition-all">
+    <div className="m-2 flex flex-col justify-between flex-shrink-0 w-64 bg-gray-900 text-white px-4 py-5 rounded-md hover:scale-105 transition-all">
       <a href={`/product/${product._id}`} className="text-blue-500 block ">
         <div
           className="w-full h-52 mb-2 rounded-md"
@@ -26,33 +26,39 @@ const ProductCard = ({ product }) => {
           }}
         ></div>
       </a>
-      <h3 className="text-lg font-semibold mb-1">{product.name}</h3>
-      <p className="text-sm text-gray-300">
-        Uploaded by - {product.uploadedBy.name}
-      </p>
-      <p className="text-sm text-gray-300">{product.uploadedBy.college}</p>
-
-      <div className="flex justify-between items-center mt-2">
-        <button
-          className={`flex items-center px-4 py-2 rounded ${
-            clickedButtonId === product._id
-              ? "bg-green-500"
-              : "bg-yellow-500 hover:bg-yellow-600"
-          } text-gray-800 transition duration-300 transform`}
-          onClick={() => handleAddToCart(product)}
-        >
-          <span
-            className={`mr-2 ${
-              clickedButtonId === product._id ? "animate-ping" : ""
-            } transition-transform`}
-          >
-            <FaShoppingCart />
-          </span>
-          Buy now
-        </button>
-        <p className="text-xl mx-auto">
-          ₹{parseFloat(product.price.$numberDecimal).toFixed(2)}
+      <h3 className="text-lg font-semibold mb-1">
+        {product.name.length > 40
+          ? `${product.name.slice(0, 40)}...`
+          : product.name}
+      </h3>
+      <div>
+        <p className="text-sm text-gray-300">
+          Uploaded by - {product.uploadedBy.name}
         </p>
+        <p className="text-sm text-gray-300">{product.uploadedBy.college}</p>
+
+        <div className="flex justify-between items-center mt-2">
+          <button
+            className={`flex items-center px-4 py-2 rounded ${
+              clickedButtonId === product._id
+                ? "bg-green-500"
+                : "bg-yellow-500 hover:bg-yellow-600"
+            } text-gray-800 transition duration-300 transform`}
+            onClick={() => handleAddToCart(product)}
+          >
+            <span
+              className={`mr-2 ${
+                clickedButtonId === product._id ? "animate-ping" : ""
+              } transition-transform`}
+            >
+              <FaShoppingCart />
+            </span>
+            Buy now
+          </button>
+          <p className="text-xl mx-auto">
+            ₹{parseFloat(product.price.$numberDecimal).toFixed(2)}
+          </p>
+        </div>
       </div>
     </div>
   );

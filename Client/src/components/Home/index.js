@@ -59,6 +59,7 @@ const ProductsList = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProducts = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/products/");
@@ -114,6 +115,7 @@ const ProductsList = () => {
               }
               return 0;
             });
+
           setFilteredProducts(filtered);
           setIsLoading(false);
         } else {
@@ -127,7 +129,7 @@ const ProductsList = () => {
     fetchProducts();
   }, [searchQuery, priceRange, categoryFilter, sortBy, collegeQuery]);
 
-  const productsPerPage = 15;
+  const productsPerPage = 20;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -140,33 +142,33 @@ const ProductsList = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto py-4">
+    <div className="lg:w-4/5 mx-4 md:mx-auto py-4">
       <h1 className="text-3xl font-semibold mb-4">All Products</h1>
       <div>
         {!isLoading ? (
-          <div>
-            <div className="w-full md:flex">
-              <Filters
-                searchQuery={searchQuery}
-                handleSearchQueryChange={handleSearchQueryChange}
-                collegeQuery={collegeQuery}
-                handleCollegeQueryChange={handleCollegeQueryChange}
-                collegeOptions={collegeOptions}
-                sortBy={sortBy}
-                handleSortChange={handleSortChange}
-                priceRange={priceRange}
-                handlePriceRangeChange={handlePriceRangeChange}
-                categoryFilter={categoryFilter}
-                handleCategoryFilterChange={handleCategoryFilterChange}
-              />
-              <ProductList currentProducts={currentProducts} />
-            </div>
-            <Pagination
-              filteredProducts={filteredProducts}
-              productsPerPage={productsPerPage}
-              currentPage={currentPage}
-              paginate={paginate}
+          <div className="flex">
+            <Filters
+              searchQuery={searchQuery}
+              handleSearchQueryChange={handleSearchQueryChange}
+              collegeQuery={collegeQuery}
+              handleCollegeQueryChange={handleCollegeQueryChange}
+              collegeOptions={collegeOptions}
+              sortBy={sortBy}
+              handleSortChange={handleSortChange}
+              priceRange={priceRange}
+              handlePriceRangeChange={handlePriceRangeChange}
+              categoryFilter={categoryFilter}
+              handleCategoryFilterChange={handleCategoryFilterChange}
             />
+            <div className="w-full flex flex-col items-center">
+              <ProductList currentProducts={currentProducts} />
+              <Pagination
+                filteredProducts={filteredProducts}
+                productsPerPage={productsPerPage}
+                currentPage={currentPage}
+                paginate={paginate}
+              />
+            </div>
           </div>
         ) : (
           <Loading />

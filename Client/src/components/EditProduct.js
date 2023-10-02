@@ -116,7 +116,7 @@ const EditProduct = () => {
         body: JSON.stringify({
           ...formData,
           uploadedBy: {
-            id: user.id,
+            _id: user.id,
             name: user.name,
             college: user.college,
           },

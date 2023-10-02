@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserDetails from "./Profile/UserDetails";
 import { useAuth } from "../context/authContext";
 import Navbar from "./Utility/Navbar";
@@ -17,8 +17,12 @@ const UserProfile = () => {
   const [formData, setFormData] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user || user.id !== id) {
+      navigate("/login");
+    }
     fetch(`http://localhost:8000/api/users/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -37,7 +41,7 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Error fetching user products: ", error);
       });
-  }, [id]);
+  }, [id, user, navigate]);
 
   const handleEditClick = () => {
     setEditMode(true);

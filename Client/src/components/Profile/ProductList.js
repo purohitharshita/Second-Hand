@@ -38,12 +38,16 @@ const ProductList = ({ userProducts, onDeleteProduct }) => {
               <img
                 src={product.images[0]} // Use correct image source
                 alt={product.name}
-                className="w-full h-32 object-cover mb-4 rounded-lg"
+                className="w-full h-64 object-cover mb-4 rounded-lg"
               />
               <h2 className="text-lg font-semibold text-gray-900 mb-2">
                 {product.name}
               </h2>
-              <p className="text-gray-600 mb-2">{product.description}</p>
+              <p className="text-gray-600 mb-2">
+                {product.description.length > 100
+                  ? `${product.description.slice(0, 100)}...`
+                  : product.description}
+              </p>
               <p className="text-yellow-500 text-lg font-semibold mb-2">
                 ₹{parseFloat(product.price.$numberDecimal).toFixed(2)}
               </p>
