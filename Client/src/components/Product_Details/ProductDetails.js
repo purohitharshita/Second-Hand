@@ -3,7 +3,7 @@ import { FaEdit, FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
 import Dialog from "./Dialog";
-import Loading from "../Loading";
+import Loading from "../Utility/Loading";
 
 const ProductDetails = ({ productId }) => {
   const { user } = useAuth();

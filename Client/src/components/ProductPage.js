@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ProductDetails from "./Product_Details/ProductDetails"; // Import the product details component
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./Utility/Navbar";
+import Footer from "./Utility/Footer";
 
 const ProductPage = () => {
   const { id } = useParams(); // Get the product ID from the route parameter

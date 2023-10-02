@@ -1,7 +1,7 @@
 // AddProduct.js
 import React, { useState } from "react";
-import Navbar from "./Navbar"; // Import your Navbar component
-import Footer from "./Footer"; // Import your Footer component
+import Navbar from "./Utility/Navbar"; // Import your Navbar component
+import Footer from "./Utility/Footer"; // Import your Footer component
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 
@@ -95,7 +95,6 @@ const AddProduct = () => {
               // You can redirect the user or show a success message
               console.log("Product added successfully!");
               navigate("/home");
-              
             } else {
               // Handle errors, e.g., show an error message to the user
               console.error("Failed to add product.");

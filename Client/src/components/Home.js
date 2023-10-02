@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./Utility/Navbar";
+import Footer from "./Utility/Footer";
 import ProductsList from "./Home/index";
 
 const Home = () => {

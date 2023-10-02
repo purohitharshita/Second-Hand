@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UserDetails from "./Profile/UserDetails";
 import { useAuth } from "../context/authContext";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./Utility/Navbar";
+import Footer from "./Utility/Footer";
 import ConfirmDialog from "./Profile/ConfirmDialog";
 import ProductList from "./Profile/ProductList";
-import Loading from "./Loading";
+import Loading from "./Utility/Loading";
 
 const UserProfile = () => {
   const { user } = useAuth();

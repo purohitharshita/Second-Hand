@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filters from "./Filters";
 import ProductList from "./ProductList";
 import Pagination from "./Pagination";
-import Loading from "../Loading";
+import Loading from "../Utility/Loading";
 
 const ProductsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
