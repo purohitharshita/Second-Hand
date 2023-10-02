@@ -11,7 +11,10 @@ const Navbar = () => {
   useEffect(() => {
     // Close profile menu when user clicks outside of it
     const handleClickOutside = (event) => {
-      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
         setIsProfileMenuOpen(false);
       }
     };
@@ -29,9 +32,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 py-4 px-8 flex flex-col md:flex-row justify-between items-center z-[100]">
-      <div className="flex items-center mb-4 md:mb-0">
-        <Link to="/" className="text-white text-2xl font-bold">
+    <nav className="bg-gray-900 py-4 px-4 md:px-8 md:py-6 flex justify-between items-center z-10">
+      <div className="flex items-center">
+        <Link to="/home" className="text-white text-3xl font-bold">
           <span className="text-yellow-500">Your</span>Shop
         </Link>
       </div>
@@ -50,7 +53,7 @@ const Navbar = () => {
             {isProfileMenuOpen && (
               <div
                 ref={profileMenuRef}
-                className="w-40 absolute right-0 mt-2 bg-white p-2 rounded shadow-lg transform transition duration-300 opacity-100 scale-100 hover:scale-105"
+                className="w-40 absolute right-0 mt-2 bg-white p-2 rounded shadow-lg transform transition duration-300 opacity-100 scale-100 hover:scale-105 md:scale-100 md:origin-top-right"
               >
                 <Link
                   to={`/profile/${user.id}`}
@@ -80,7 +83,7 @@ const Navbar = () => {
         ) : (
           <Link
             to="/login"
-            className="text-white hover:text-yellow-500 transition duration-300"
+            className="text-white text-xl hover:text-yellow-500 transition duration-300"
           >
             Sign In
           </Link>

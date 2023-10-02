@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filters from "./Filters";
 import ProductList from "./ProductList";
 import Pagination from "./Pagination";
+import Loading from "../Loading";
 
 const ProductsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,6 +12,7 @@ const ProductsList = () => {
   const [sortBy, setSortBy] = useState("latest");
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const collegeOptions = [
     "All",
@@ -109,11 +111,11 @@ const ProductsList = () => {
                   new Date(b.createdAt).getTime() -
                   new Date(a.createdAt).getTime()
                 );
-                return 0; // Placeholder
               }
               return 0;
             });
           setFilteredProducts(filtered);
+          setIsLoading(false);
         } else {
           console.error("Failed to fetch products");
         }
@@ -140,28 +142,36 @@ const ProductsList = () => {
   return (
     <div className="w-4/5 mx-auto py-4">
       <h1 className="text-3xl font-semibold mb-4">All Products</h1>
-      <div className="w-full md:flex">
-        <Filters
-          searchQuery={searchQuery}
-          handleSearchQueryChange={handleSearchQueryChange}
-          collegeQuery={collegeQuery}
-          handleCollegeQueryChange={handleCollegeQueryChange}
-          collegeOptions={collegeOptions}
-          sortBy={sortBy}
-          handleSortChange={handleSortChange}
-          priceRange={priceRange}
-          handlePriceRangeChange={handlePriceRangeChange}
-          categoryFilter={categoryFilter}
-          handleCategoryFilterChange={handleCategoryFilterChange}
-        />
-        <ProductList currentProducts={currentProducts} />
+      <div>
+        {!isLoading ? (
+          <div>
+            <div className="w-full md:flex">
+              <Filters
+                searchQuery={searchQuery}
+                handleSearchQueryChange={handleSearchQueryChange}
+                collegeQuery={collegeQuery}
+                handleCollegeQueryChange={handleCollegeQueryChange}
+                collegeOptions={collegeOptions}
+                sortBy={sortBy}
+                handleSortChange={handleSortChange}
+                priceRange={priceRange}
+                handlePriceRangeChange={handlePriceRangeChange}
+                categoryFilter={categoryFilter}
+                handleCategoryFilterChange={handleCategoryFilterChange}
+              />
+              <ProductList currentProducts={currentProducts} />
+            </div>
+            <Pagination
+              filteredProducts={filteredProducts}
+              productsPerPage={productsPerPage}
+              currentPage={currentPage}
+              paginate={paginate}
+            />
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
-      <Pagination
-        filteredProducts={filteredProducts}
-        productsPerPage={productsPerPage}
-        currentPage={currentPage}
-        paginate={paginate}
-      />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { FaEdit, FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
 import Dialog from "./Dialog";
+import Loading from "../Loading";
 
 const ProductDetails = ({ productId }) => {
   const { user } = useAuth();
@@ -52,7 +53,7 @@ const ProductDetails = ({ productId }) => {
   }, [productId]);
 
   if (!productDetails) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

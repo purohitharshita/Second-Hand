@@ -94,7 +94,7 @@ const AddProduct = () => {
               // Product was successfully added
               // You can redirect the user or show a success message
               console.log("Product added successfully!");
-              navigate("/");
+              navigate("/home");
               
             } else {
               // Handle errors, e.g., show an error message to the user
@@ -247,7 +247,7 @@ const AddProduct = () => {
                 <button
                   type="button"
                   onClick={() => handleRemoveSpecification(index)}
-                  className="w-[7%] bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                  className="w-32 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300"
                 >
                   Remove
                 </button>
@@ -285,7 +285,7 @@ const AddProduct = () => {
               <button
                 type="button"
                 onClick={handleAddSpecification}
-                className="w-[7%] bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                className="w-32 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
               >
                 Add
               </button>

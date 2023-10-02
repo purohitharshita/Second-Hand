@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UserDetails from "./Profile/UserDetails";
-import ProductCard from "./ProductCard"; // Import ProductCard component
 import { useAuth } from "../context/authContext";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ConfirmDialog from "./Profile/ConfirmDialog";
 import ProductList from "./Profile/ProductList";
+import Loading from "./Loading";
 
 const UserProfile = () => {
   const { user } = useAuth();
@@ -111,6 +111,10 @@ const UserProfile = () => {
       setProductIdToDelete(null);
     }
   };
+
+  if (!userData) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen">

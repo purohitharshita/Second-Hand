@@ -33,7 +33,7 @@ const Login = () => {
         name: data.user.fullName,
         college: data.user.college,
       });
-      navigate("/");
+      navigate("/home");
     }
   };
 
