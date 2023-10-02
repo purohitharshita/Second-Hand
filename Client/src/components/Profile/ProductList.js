@@ -10,7 +10,7 @@ const ProductList = ({ userProducts, onDeleteProduct }) => {
           <div
             key={product._id}
             to={`/product/${product._id}`}
-            className="bg-white shadow-md p-4 rounded-lg shadow-2xl border-t-4 border-l-4 border-yellow-500 relative flex flex-col justify-between"
+            className="bg-white p-4 rounded-lg shadow-2xl border-t-4 border-l-4 border-yellow-500 relative flex flex-col justify-between"
           >
             <button
               onClick={(e) => {

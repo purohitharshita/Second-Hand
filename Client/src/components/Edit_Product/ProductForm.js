@@ -110,6 +110,7 @@ const ProductForm = ({
           <div className="mt-4">
             {formData.images.map((image, index) => (
               <div key={index} className="flex items-center mb-2">
+                {/* eslint-disable-next-line */}
                 <img
                   src={image}
                   alt={`Product Image ${index + 1}`}
