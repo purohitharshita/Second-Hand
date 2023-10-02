@@ -58,76 +58,75 @@ const ProductsList = () => {
     setCategoryFilter(e.target.value);
   };
 
-  useEffect(() => {
+  const fetchProducts = async () => {
     setIsLoading(true);
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/api/products/");
-        if (response.ok) {
-          const products = await response.json();
+    try {
+      const response = await fetch("http://localhost:8000/api/products/");
+      if (response.ok) {
+        const products = await response.json();
 
-          // Filter products based on the search query, price range, and category
-          const filtered = products
-            .filter((product) =>
-              product.name.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .filter((product) =>
-              product.uploadedBy.college
-                .toLowerCase()
-                .includes(collegeQuery.toLowerCase())
-            )
-            .filter(
-              (product) =>
-                product.price.$numberDecimal >= priceRange[0] &&
-                product.price.$numberDecimal <= priceRange[1]
-            )
-            .filter((product) =>
-              product.category
-                .toLowerCase()
-                .includes(categoryFilter.toLowerCase())
-            )
-            .filter((product) => {
-              if (searchQuery.trim() === "") {
-                return true; // If search query is empty, include all products
-              }
-              // Use a case-insensitive regex to match the search query against product name or description
-              const regex = new RegExp(searchQuery, "i");
+        // Filter products based on the search query, price range, and category
+        const filtered = products
+          .filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .filter((product) =>
+            product.uploadedBy.college
+              .toLowerCase()
+              .includes(collegeQuery.toLowerCase())
+          )
+          .filter(
+            (product) =>
+              product.price.$numberDecimal >= priceRange[0] &&
+              product.price.$numberDecimal <= priceRange[1]
+          )
+          .filter((product) =>
+            product.category
+              .toLowerCase()
+              .includes(categoryFilter.toLowerCase())
+          )
+          .filter((product) => {
+            if (searchQuery.trim() === "") {
+              return true; // If search query is empty, include all products
+            }
+            // Use a case-insensitive regex to match the search query against product name or description
+            const regex = new RegExp(searchQuery, "i");
+            return regex.test(product.name) || regex.test(product.description);
+          })
+          .sort((a, b) => {
+            if (sortBy === "lowestPrice") {
               return (
-                regex.test(product.name) || regex.test(product.description)
+                parseFloat(a.price.$numberDecimal) -
+                parseFloat(b.price.$numberDecimal)
               );
-            })
-            .sort((a, b) => {
-              if (sortBy === "lowestPrice") {
-                return (
-                  parseFloat(a.price.$numberDecimal) -
-                  parseFloat(b.price.$numberDecimal)
-                );
-              } else if (sortBy === "highestPrice") {
-                return (
-                  parseFloat(b.price.$numberDecimal) -
-                  parseFloat(a.price.$numberDecimal)
-                );
-              } else if (sortBy === "latest") {
-                return (
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
-                );
-              }
-              return 0;
-            });
+            } else if (sortBy === "highestPrice") {
+              return (
+                parseFloat(b.price.$numberDecimal) -
+                parseFloat(a.price.$numberDecimal)
+              );
+            } else if (sortBy === "latest") {
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            }
+            return 0;
+          });
 
-          setFilteredProducts(filtered);
-          setIsLoading(false);
-        } else {
-          console.error("Failed to fetch products");
-        }
-      } catch (error) {
-        console.error(error);
+        setFilteredProducts(filtered);
+        setIsLoading(false);
+      } else {
+        console.error("Failed to fetch products");
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
-  }, [searchQuery, priceRange, categoryFilter, sortBy, collegeQuery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const productsPerPage = 20;
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -159,6 +158,7 @@ const ProductsList = () => {
               handlePriceRangeChange={handlePriceRangeChange}
               categoryFilter={categoryFilter}
               handleCategoryFilterChange={handleCategoryFilterChange}
+              handleFiltersApplied={fetchProducts}
             />
             <div className="w-full flex flex-col items-center">
               <ProductList currentProducts={currentProducts} />
