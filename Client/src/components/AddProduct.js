@@ -252,7 +252,7 @@ const AddProduct = () => {
                 </button>
               </div>
             ))}
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between">
               <input
                 type="text"
                 id="specificationKeyField"
@@ -264,7 +264,7 @@ const AddProduct = () => {
                     key: e.target.value,
                   })
                 }
-                className="w-[45%] border rounded-lg py-2 px-3"
+                className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
                 placeholder="Key"
               />
               <input
@@ -278,13 +278,13 @@ const AddProduct = () => {
                     value: e.target.value,
                   })
                 }
-                className="w-[45%] border rounded-lg py-2 px-3"
+                className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
                 placeholder="Value"
               />
               <button
                 type="button"
                 onClick={handleAddSpecification}
-                className="w-32 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                className="w-full md:w-32 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
               >
                 Add
               </button>

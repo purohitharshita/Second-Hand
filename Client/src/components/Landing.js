@@ -13,14 +13,14 @@ const LandingPage = () => {
       }}
     >
       <div
-        className="text-yellow-500 text-[8em] font-bold animate__animated animate__bounceInDown hover:scale-125 hover:animate-bounce transition-all"
+        className="text-yellow-500 text-[6vh] md:text-[12vh] font-bold animate__animated animate__bounceInDown hover:scale-125 hover:animate-bounce transition-all"
         style={{ textShadow: "2px 2px 4px #000000" }}
       >
-        Your<span className="text-white">Shop</span>
+        Second<span className="text-white">Hand</span>
       </div>
       <div className="text-center z-10 flex flex-col items-center">
         <h1
-          className="text-4xl md:text-6xl font-bold mb-6 animate__animated animate__fadeInDown text-white"
+          className="text-3xl md:text-5xl font-bold mb-6 animate__animated animate__fadeInDown text-white"
           style={{ WebkitTextStroke: "1px black" }}
         >
           College Marketplace

@@ -145,7 +145,7 @@ const ProductsList = () => {
       <h1 className="text-3xl font-semibold mb-4">All Products</h1>
       <div>
         {!isLoading ? (
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
             <Filters
               searchQuery={searchQuery}
               handleSearchQueryChange={handleSearchQueryChange}

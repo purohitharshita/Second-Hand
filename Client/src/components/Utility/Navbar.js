@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav className="bg-gray-900 py-4 px-4 md:px-8 md:py-6 flex justify-between items-center z-10">
       <div className="flex items-center">
         <Link to="/home" className="text-white text-3xl font-bold">
-          <span className="text-yellow-500">Your</span>Shop
+          <span className="text-yellow-500">Second</span>Hand
         </Link>
       </div>
       <div className="relative group">

@@ -9,7 +9,7 @@ const ProductPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="mx-auto w-4/5 p-4 ">
+      <div className="mx-auto w-full md:w-4/5 p-4 ">
         <h1 className="text-3xl font-semibold text-gray-900">
           Product Details
         </h1>

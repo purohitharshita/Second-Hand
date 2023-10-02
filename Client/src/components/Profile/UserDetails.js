@@ -12,7 +12,7 @@ const UserDetails = ({
   handleSaveClick,
 }) => {
   return (
-    <div className="w-3/4 p-4">
+    <div className="w-full md:w-3/4 p-4">
       <form>
         {/* Use UserField component for each field */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -134,13 +134,16 @@ const ProductForm = ({
           Specifications
         </label>
         {formData.specifications.map((spec, index) => (
-          <div key={index} className="flex mb-2 justify-between">
+          <div
+            key={index}
+            className="flex flex-col md:flex-row justify-between"
+          >
             <input
               type="text"
               name={`specification-${index}-key`}
               value={spec.key}
               readOnly
-              className="w-[45%] border rounded-lg py-2 px-3 bg-gray-200 mr-2"
+              className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
               disabled
             />
             <input
@@ -148,19 +151,19 @@ const ProductForm = ({
               name={`specification-${index}-value`}
               value={spec.value}
               readOnly
-              className="w-[45%] border rounded-lg py-2 px-3 bg-gray-200 mr-2"
+              className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
               disabled
             />
             <button
               type="button"
               onClick={() => handleRemoveSpecification(index)}
-              className="w-[7%] bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+              className="w-full md:w-32 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300"
             >
               Remove
             </button>
           </div>
         ))}
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row justify-between">
           <input
             type="text"
             id="specificationKeyField"
@@ -172,7 +175,7 @@ const ProductForm = ({
                 key: e.target.value,
               })
             }
-            className="w-[45%] border rounded-lg py-2 px-3"
+            className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
             placeholder="Key"
           />
           <input
@@ -186,13 +189,13 @@ const ProductForm = ({
                 value: e.target.value,
               })
             }
-            className="w-[45%] border rounded-lg py-2 px-3"
+            className="w-full md:w-[45%] border rounded-lg py-2 px-3 my-2 md:my-0"
             placeholder="Value"
           />
           <button
             type="button"
             onClick={handleAddSpecification}
-            className="w-[7%] bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+            className="w-full md:w-32 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition duration-300"
           >
             Add
           </button>

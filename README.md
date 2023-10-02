@@ -19,8 +19,8 @@ Welcome to **Second Hand**, the eco-friendly e-commerce platform designed exclus
 1. **Clone the Repository:**
 
 ```
-git clone <repository-url>
-cd <repository-folder>
+git clone "https://github.com/Kraizan/Second-Hand"
+cd Second-Hand
 ```
 
 2. **Install Dependencies:**
