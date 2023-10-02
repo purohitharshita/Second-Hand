@@ -49,6 +49,18 @@ cd Second-Hand
 
 - Open your browser and visit `http://localhost:3000` to access the application.
 
+## Screenshots
+
+![image](https://github.com/Kraizan/Second-Hand/assets/63310123/e9d4bb64-d5aa-4075-af9c-de6970bd7c08)
+
+![image](https://github.com/Kraizan/Second-Hand/assets/63310123/9c07f1b6-6650-4004-9b78-5340d0f94099)
+
+![image](https://github.com/Kraizan/Second-Hand/assets/63310123/413441d1-5bdb-4ceb-b9fd-52aadd71c13a)
+
+![image](https://github.com/Kraizan/Second-Hand/assets/63310123/20d224e3-ad00-46c6-b0da-3376e410b635)
+
+![image](https://github.com/Kraizan/Second-Hand/assets/63310123/15572d2d-7777-485c-9fa8-df913ca80894)
+
 ## Contributing
 
 Contributions are welcome! If you have any ideas, enhancements, or bug fixes, feel free to create issues or pull requests. Let's make **Second Hand** even better together!
