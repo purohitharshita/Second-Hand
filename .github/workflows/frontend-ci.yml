@@ -21,14 +21,14 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: client
+      working-directory: Client
 
     - name: Run build
       run: npm run build
-      working-directory: client
+      working-directory: Client
 
     - name: Run tests
       run: npm test --if-present
-      working-directory: client
+      working-directory: Client
 
 
