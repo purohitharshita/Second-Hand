@@ -16,7 +16,7 @@ const ProductDetails = ({ productId }) => {
 
   const handleConfirmPurchase = async (userData) => {
     alert("Purchase confirmed!");
-    const response = await fetch(
+    await fetch(
       `${process.env.REACT_APP_BASE_URL}/api/products/${productId}`,
       {
         method: "DELETE",
