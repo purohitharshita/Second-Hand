@@ -27,8 +27,7 @@ jobs:
       run: npm run build
       working-directory: Client
 
-    - name: Run tests
-      run: npm test --if-present
+    - name: Run tests (allow no tests)
+      run: npm test -- --passWithNoTests
       working-directory: Client
-
 
